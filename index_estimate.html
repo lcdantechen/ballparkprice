@@ -1,0 +1,340 @@
+<HTML><HEAD>
+<TITLE>Agent Ballpark Estimate</TITLE>
+<SCRIPT LANGUAGE="JavaScript" SRC="CalendarPopup.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript">
+	var cal = new CalendarPopup();
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+function validate_form()
+{
+	if(document.estimate.firstName.value==null||document.estimate.firstName.value==""){
+	 alert("First Name is required field!");
+	 document.estimate.firstName.focus();
+	 return false
+	}else if(document.estimate.lastName.value==null||document.estimate.lastName.value==""){
+	 alert("Last Name is required field!");
+	 document.estimate.lastName.focus();
+	 return false
+	}else if(document.estimate.address1.value==null||document.estimate.address1.value==""){
+	 alert("Address 1 is required field!");
+	 document.estimate.address1.focus();
+	 return false
+	}else if(document.estimate.phone1.value==null||document.estimate.phone1.value==""){
+	 alert("Phone 1 is required field!");
+	 document.estimate.phone1.focus();
+	 return false
+	}else if(document.estimate.emailAddress.value==null||document.estimate.emailAddress.value==""){
+	 alert("Email Address is required field!");
+	 document.estimate.emailAddress.focus();
+	 return false
+	}
+	else{
+		var email = document.estimate.emailAddress.value;
+			if(echeck(email)){
+			}
+			else{
+				return false;
+		}
+	}
+
+	if(document.estimate.fromCity.value==null||document.estimate.fromCity.value==""){
+	 alert("From City is required field!");
+	 document.estimate.fromCity.focus();
+	 return false
+	}else if(document.estimate.fromState.value==null||document.estimate.fromState.value==""){
+	 alert("From State is required field!");
+	 document.estimate.fromState.focus();
+	 return false
+	}else if(document.estimate.originZip.value==null||document.estimate.originZip.value==""){
+	 alert("Origin Zip is required field!");
+	 document.estimate.originZip.focus();
+	 return false
+	}else{
+		var zip = document.estimate.originZip.value;
+		var type = "Origin Zip"
+		if(validateZIP(zip,type)){
+		}
+		else{
+		 document.estimate.originZip.focus();
+	 	 return false
+		}
+	}
+
+	if(document.estimate.toCity.value==null||document.estimate.toCity.value==""){
+	 alert("To City is required field!");
+	 document.estimate.toCity.focus();
+	 return false
+	}else if(document.estimate.toState.value==null||document.estimate.toState.value==""){
+	 alert("To State is required field!");
+	 document.estimate.toState.focus();
+	 return false
+	}else if(document.estimate.destinationZip.value==null||document.estimate.destinationZip.value==""){
+	 alert("Destination Zip is required field!");
+	 document.estimate.destinationZip.focus();
+	 return false
+	}else {
+	var zip = document.estimate.destinationZip.value;
+	var type = "Destination Zip"
+	if(validateZIP(zip,type)){
+		}
+	else{
+		 document.estimate.destinationZip.focus();
+	 	 return false
+	 }
+	}
+	if(document.estimate.moveDate.value==null||document.estimate.moveDate.value==""){
+	 alert("Move Date is required field!");
+	 document.estimate.moveDate.focus();
+	 return false
+	}else if(document.estimate.moveDate.value.length!=10){
+		alert("Invalid Move Date!. Valid format is mm/dd/yyyy");
+		 document.estimate.moveDate.focus();
+	 	return false
+	}
+	else{
+		var date=document.estimate.moveDate.value;
+		if (isDate(date)==false){
+				document.estimate.moveDate.focus();
+				return false
+		}
+	}
+	if(document.estimate.moveSize.value==null||document.estimate.moveSize.value==""){
+	 alert("Move Size is required field!");
+	 document.estimate.moveSize.focus();
+	 return false
+	}else{
+		 popup();
+		 return true;
+	}
+}
+function popup() {
+  var NewWind = window.open('','newWin', 'width=650,height=800,toolbar=no,location=0,scrollbars=1,status=0' );
+  if (NewWind.opener == null) {
+    NewWind.opener = window;
+  }
+}
+function echeck(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   alert("Invalid Email Address")
+		   document.estimate.emailAddress.focus();
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid Email Address")
+		   document.estimate.emailAddress.focus();
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid Email Address")
+		    document.estimate.emailAddress.focus();
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid Email Address")
+		    document.estimate.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid Email Address")
+		    document.estimate.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid Email Address")
+		    document.estimate.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid Email Address")
+		    document.estimate.emailAddress.focus();
+		    return false
+		 }
+
+ 		 return true
+	}
+	function validateZIP(field,type) {
+	 var valid = "0123456789-";
+	 var hyphencount = 0;
+
+	 if (field.length!=5) {
+	 alert("Please enter your 5 digit zip code.");
+	 return false
+	 }
+	 for (var i=0; i < field.length; i++) {
+		temp = "" + field.substring(i, i+1);
+		if (temp == "-") hyphencount++;
+		if (valid.indexOf(temp) == "-1") {
+		alert("Invalid characters in "+type+".  Please try again.");
+		return false;
+		}
+	 }
+ 	 return true
+   }
+ // Variables for the current date, year and month
+ var browserName=navigator.appName;
+ var right_now=new Date();
+ var the_year=9999;
+ if (browserName=="Mozilla Firefox"||browserName=="Netscape")
+  {
+ 	the_year=right_now.getFullYear();
+  }
+  else{
+ 	the_year=right_now.getYear();
+ }
+ var dtCh= "/";
+ var minYear=the_year;
+ var maxYear=the_year+3;
+
+function isInteger(s){
+	var i;
+    for (i = 0; i < s.length; i++){
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+
+function stripCharsInBag(s, bag){
+	var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++){
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function daysInFebruary (year){
+	// February has 29 days in any year evenly divisible by four,
+    // EXCEPT for centurial years which are not also divisible by 400.
+    return (((year % 4 == 0) && ( (!(year % 100 == 0)) || (year % 400 == 0))) ? 29 : 28 );
+}
+function DaysArray(n) {
+	for (var i = 1; i <= n; i++) {
+		this[i] = 31
+		if (i==4 || i==6 || i==9 || i==11) {this[i] = 30}
+		if (i==2) {this[i] = 29}
+   }
+   return this
+}
+
+function isDate(dtStr){
+	var daysInMonth = DaysArray(12)
+	var pos1=dtStr.indexOf(dtCh)
+	var pos2=dtStr.indexOf(dtCh,pos1+1)
+	var strMonth=dtStr.substring(0,pos1)
+	var strDay=dtStr.substring(pos1+1,pos2)
+	var strYear=dtStr.substring(pos2+1)
+	strYr=strYear
+	if (strDay.charAt(0)=="0" && strDay.length>1) strDay=strDay.substring(1)
+	if (strMonth.charAt(0)=="0" && strMonth.length>1) strMonth=strMonth.substring(1)
+	for (var i = 1; i <= 3; i++) {
+		if (strYr.charAt(0)=="0" && strYr.length>1) strYr=strYr.substring(1)
+	}
+	month=parseInt(strMonth)
+	day=parseInt(strDay)
+	year=parseInt(strYr)
+	if (pos1==-1 || pos2==-1){
+		alert("The date format should be : mm/dd/yyyy")
+		return false
+	}
+	if (strMonth.length<1 || month<1 || month>12){
+		alert("Please enter a valid month")
+		return false
+	}
+	if (strDay.length<1 || day<1 || day>31 || (month==2 && day>daysInFebruary(year)) || day > daysInMonth[month]){
+		alert("Please enter a valid day")
+		return false
+	}
+	if (strYear.length != 4 || year==0 || year<minYear || year>maxYear){
+		alert("Please enter a valid 4 digit year between "+minYear+" and "+maxYear)
+		return false
+	}
+	if (dtStr.indexOf(dtCh,pos2+1)!=-1 || isInteger(stripCharsInBag(dtStr, dtCh))==false){
+		alert("Please enter a valid date")
+		return false
+	}
+return true
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<center>
+<FORM name="estimate" ACTION="http://access.wheatonworldwide.com/WheatonSalesServlet/BallparkEstimateServlet" method="Post" TARGET="newWin" onSubmit="return validate_form()">
+<h3>Request an Estimate</h3>
+<input type="hidden" name="agentNumber" value="your 4 digit agency code goes here">
+<table border="1" bgcolor="#f0eee2" >
+<tr><td colspan="2">*indicates required fields</td></tr>
+<tr><td colspan="2"><b>Contact Information</b></td></tr>
+<tr><td>First Name*</td><td><Input type="text" name="firstName"></td></tr>
+<tr><td>Last Name*</td><td><Input type="text" name="lastName"></td></tr>
+<tr><td>Address1*</td><td><Input type="text" name="address1"></td></tr>
+<tr><td>Address2</td><td><Input type="text" name="address2"></td></tr>
+<tr><td>phone1*</td><td><Input type="text" name="phone1"></td></tr>
+<tr><td>phone2</td><td><Input type="text" name="phone2"></td></tr>
+<tr><td>FAX</td><td><Input type="text" name="fax"></td></tr>
+
+<tr><td>Email Address*:</td><td><input type = "text" name="emailAddress" value=""></td></tr>
+
+<tr><td>Contact Preference*:</td><td><Input type="radio" name="contact" value="Phone"  checked="checked">Phone&nbsp;
+<Input type="radio" name="contact" value="Email">Email</td></tr>
+<tr><td>Contact At Work:</td><td><Input type="radio" name="contactAtwork" value="Yes"  checked="checked">Yes&nbsp;
+<Input type="radio" name="contactAtwork" value="No">No</td></tr>
+<tr><td>Best Way to Call:</td><td><Input type="radio" name="bestWay" value="Day" checked="checked">Day&nbsp;
+<Input type="radio" name="bestWay" value="Night">Night&nbsp;
+<Input type="radio" name="bestWay" value="Any Time">Any Time</td></tr>
+
+<tr><td colspan="2"><b>Origin Information</b></td></tr>
+<tr><td>Origin City*:</td><td><input type = "text" name="fromCity" value=""></td></tr>
+<tr><td>Origin State*:</td><td><input type = "text" name="fromState" value="" maxlength="2"></td></tr>
+<tr><td>Origin Zip*:</td><td><input type = "text" name="originZip" value="" maxlength="5"></td></tr>
+
+<tr><td colspan="2"><b>Destination Information</b></tr>
+<tr><td>Destination City*:</td><td><input type = "text" name="toCity" value=""></td></tr>
+<tr><td>Origin State*:</td><td><input type = "text" name="toState" value="" maxlength="2"></td></tr>
+<tr><td>Origin Zip*:</td><td><input type = "text" name="destinationZip" value="" maxlength="5"></td></tr>
+
+<tr><td colspan="2"><b>Moving Details</b></td></tr>
+<tr><td>Move Date*:</td><td>
+<input type="text" name="moveDate" maxlength="10" value="">
+<A HREF="#" onClick="cal.select(document.forms[0].moveDate,'anchor1','MM/dd/yyyy'); return false;"
+   NAME="anchor1" ID="anchor1"><img src="cal.gif" alt="Select a Date"></A></td></tr>
+<tr><td colspan="2">(Future date in mm/dd/yyyy format)</td></tr>
+<tr><td>Move Size*:</td><td>
+<select name="moveSize">
+	<option value="">Please select move size</option>
+	<option value="CAT3">Small Studio</option>
+	<option value="CAT4">Large Studio or 1 Bedroom Apt</option>
+	<option value="CAT5">2 Bedroom Apt</option>
+	<option value="CAT6">3 Bdr Apt or 2 Bedroom House</option>
+	<option value="CAT7">3 Bedroom House</option>
+	<option value="CAT8">4 Bedroom House</option>
+	<option value="CAT9">5 Bedroom House or larger</option>
+</select>
+</td></tr>
+<tr><td>Comments</td><td><textarea cols="45" rows="5" name="comments"></textarea></td></tr>
+</table>
+<INPUT TYPE="Hidden" NAME="action" VALUE="Estimate">
+<INPUT TYPE="SUBMIT" VALUE="Submit">&nbsp;&nbsp;
+<input type="reset" value="Reset">&nbsp;&nbsp;
+<INPUT TYPE="BUTTON" VALUE="close" onClick="window.close()">
+</FORM>
+</center>
+</BODY>
+</HTML>

@@ -1,0 +1,74 @@
+
+<form name="ballpark" action="http://access.wheatonworldwide.com/WheatonSalesServlet/BallParkServlet" method="post"  onSubmit="return validate_form()">
+<input type="hidden" name="agentNumber" value="your 4 digit agency code goes here">
+
+
+<div class="large-3 columns">
+   <p>MOVE DATE
+	<input type="text" name="moveDate"  maxlength="10" value="">
+	<A HREF="#" onClick="cal.select(document.forms[0].moveDate,'anchor1','MM/dd/yyyy'); return false;"
+	   NAME="anchor1" ID="anchor1"><img src="http://24f.fab.myftpupload.com/wp-content/uploads/2017/04/cal.gif" alt="Select a Date"></A>
+   </p>
+</div>
+ 
+
+<div class="large-3 columns">
+   <p>SIZE OF MOVE
+	<select name="moveSize"><option value="">Please select move size</option>
+				<option value="CAT3">Small Studio</option>
+				<option value="CAT4">Large Studio or 1 Bedroom Apt</option>
+				<option value="CAT5">2 Bedroom Apt</option>
+				<option value="CAT6">3 Bdr Apt or 2 Bedroom House</option>
+				<option value="CAT7">3 Bedroom House</option>
+				<option value="CAT8">4 Bedroom House</option>
+				<option value="CAT9">5 Bedroom House or larger</option></select>
+   </p>
+</div>
+ 
+<div class="large-3 columns">
+   <p>ORIGIN ZIP CODE
+	<input type="text" name="originZip" maxlength="5" value="">
+   </p>
+</div>
+ 
+<div class="large-3 columns">
+   <p>DESTINATION ZIP CODE
+	<input type="text" name="destinationZip" maxlength="5" value=""></td></tr>
+   </p>
+</div>
+ 
+
+
+
+
+
+
+<tr><td colspan="2">Get an Interstate <b>BallPark Price</B></td></tr>
+<tr><td>Email Address:</td><td>
+<input type="text" name="emailAddress" maxlength="50" value=""></td></tr>
+<tr><td>Origin Zip:</td><td>
+<input type="text" name="originZip" maxlength="5" value=""></td></tr>
+<tr><td>Destination Zip:</td><td>
+<input type="text" name="destinationZip" maxlength="5" value=""></td></tr>
+<tr><td>Move Date:</td><td>
+<input type="text" name="moveDate"  maxlength="10" value="">
+<A HREF="#" onClick="cal.select(document.forms[0].moveDate,'anchor1','MM/dd/yyyy'); return false;"
+   NAME="anchor1" ID="anchor1"><img src="http://24f.fab.myftpupload.com/wp-content/uploads/2017/04/cal.gif" alt="Select a Date"></A>
+</td></tr>
+<tr><td colspan="2">(Future date in mm/dd/yyyy format)</td><td>
+<tr><td>Move Size:</td><td>
+<select name="moveSize"><option value="">Please select move size</option>
+				<option value="CAT3">Small Studio</option>
+				<option value="CAT4">Large Studio or 1 Bedroom Apt</option>
+				<option value="CAT5">2 Bedroom Apt</option>
+				<option value="CAT6">3 Bdr Apt or 2 Bedroom House</option>
+				<option value="CAT7">3 Bedroom House</option>
+				<option value="CAT8">4 Bedroom House</option>
+				<option value="CAT9">5 Bedroom House or larger</option></select>
+</td></tr>
+<tr><td></td><td>
+<input type="Submit" value="Submit">
+<input type="reset" value="Reset">
+</td></tr>
+
+</form>

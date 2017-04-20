@@ -1,0 +1,275 @@
+<html><head><title>Ballpark Estimate</title>
+<SCRIPT LANGUAGE="JavaScript" SRC="CalendarPopup.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript">
+	var cal = new CalendarPopup();
+	</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+function validate_form()
+{
+	if(document.ballpark.emailAddress.value==null||document.ballpark.emailAddress.value==""){
+	 alert("Email Address is required field!");
+	 document.ballpark.emailAddress.focus();
+	 return false
+	}
+	else
+	{
+		var email = document.ballpark.emailAddress.value;
+		if(echeck(email)){
+
+		}
+		else{
+			return false;
+		}
+	}
+	if(document.ballpark.originZip.value==null||document.ballpark.originZip.value==""){
+	 alert("Origin Zip is required field!");
+	 document.ballpark.originZip.focus();
+	 return false
+	}
+	else{
+		var zip = document.ballpark.originZip.value;
+		var type = "Origin Zip"
+		if(validateZIP(zip,type)){
+		}
+		else{
+		 document.ballpark.originZip.focus();
+	 	 return false
+		}
+	}
+	if(document.ballpark.destinationZip.value==null||document.ballpark.destinationZip.value==""){
+	 alert("Destination Zip is required field!");
+	 document.ballpark.destinationZip.focus();
+	 return false
+	}
+	else {
+	var zip = document.ballpark.destinationZip.value;
+	var type = "Destination Zip"
+	if(validateZIP(zip,type)){
+		}
+	else{
+		 document.ballpark.destinationZip.focus();
+	 	 return false
+	 }
+	}
+	if(document.ballpark.moveDate.value==null||document.ballpark.moveDate.value==""){
+	 alert("Move Date is required field!");
+	 document.ballpark.moveDate.focus();
+	 return false
+	}else if(document.ballpark.moveDate.value.length!=10){
+		alert("Invalid Move Date!. Valid format is mm/dd/yyyy");
+		 document.ballpark.moveDate.focus();
+	 	return false
+	}
+	else{
+		var date=document.ballpark.moveDate.value;
+		if (isDate(date)==false){
+				document.ballpark.moveDate.focus();
+				return false
+		}
+	}
+	if(document.ballpark.moveSize.value==null||document.ballpark.moveSize.value==""){
+	 alert("Move Size is required field!");
+	 document.ballpark.moveSize.focus();
+	 return false
+	}else{
+		 return true;
+	}
+}
+function echeck(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   alert("Invalid Email Address")
+		   document.ballpark.emailAddress.focus();
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid Email Address")
+		   document.ballpark.emailAddress.focus();
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid Email Address")
+		    document.ballpark.emailAddress.focus();
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid Email Address")
+		    document.ballpark.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid Email Address")
+		    document.ballpark.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid Email Address")
+		    document.ballpark.emailAddress.focus();
+		    return false
+		 }
+
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid Email Address")
+		    document.ballpark.emailAddress.focus();
+		    return false
+		 }
+
+ 		 return true
+	}
+	function validateZIP(field,type) {
+	 var valid = "0123456789-";
+	 var hyphencount = 0;
+
+	 if (field.length!=5) {
+	 alert("Please enter your 5 digit zip code.");
+	 return false
+	 }
+	 for (var i=0; i < field.length; i++) {
+		temp = "" + field.substring(i, i+1);
+		if (temp == "-") hyphencount++;
+		if (valid.indexOf(temp) == "-1") {
+		alert("Invalid characters in "+type+".  Please try again.");
+		return false;
+		}
+	 }
+ 	 return true
+   }
+ // Variables for the current date, year and month
+ var browserName=navigator.appName;
+ var right_now=new Date();
+ var the_year=9999;
+ if (browserName=="Mozilla Firefox"||browserName=="Netscape")
+  {
+ 	the_year=right_now.getFullYear();
+  }
+  else{
+ 	the_year=right_now.getYear();
+ }
+ var dtCh= "/";
+ var minYear=the_year;
+ var maxYear=the_year+3;
+
+function isInteger(s){
+	var i;
+    for (i = 0; i < s.length; i++){
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+
+function stripCharsInBag(s, bag){
+	var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++){
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function daysInFebruary (year){
+	// February has 29 days in any year evenly divisible by four,
+    // EXCEPT for centurial years which are not also divisible by 400.
+    return (((year % 4 == 0) && ( (!(year % 100 == 0)) || (year % 400 == 0))) ? 29 : 28 );
+}
+function DaysArray(n) {
+	for (var i = 1; i <= n; i++) {
+		this[i] = 31
+		if (i==4 || i==6 || i==9 || i==11) {this[i] = 30}
+		if (i==2) {this[i] = 29}
+   }
+   return this
+}
+
+function isDate(dtStr){
+	var daysInMonth = DaysArray(12)
+	var pos1=dtStr.indexOf(dtCh)
+	var pos2=dtStr.indexOf(dtCh,pos1+1)
+	var strMonth=dtStr.substring(0,pos1)
+	var strDay=dtStr.substring(pos1+1,pos2)
+	var strYear=dtStr.substring(pos2+1)
+	strYr=strYear
+	if (strDay.charAt(0)=="0" && strDay.length>1) strDay=strDay.substring(1)
+	if (strMonth.charAt(0)=="0" && strMonth.length>1) strMonth=strMonth.substring(1)
+	for (var i = 1; i <= 3; i++) {
+		if (strYr.charAt(0)=="0" && strYr.length>1) strYr=strYr.substring(1)
+	}
+	month=parseInt(strMonth)
+	day=parseInt(strDay)
+	year=parseInt(strYr)
+	if (pos1==-1 || pos2==-1){
+		alert("The date format should be : mm/dd/yyyy")
+		return false
+	}
+	if (strMonth.length<1 || month<1 || month>12){
+		alert("Please enter a valid month")
+		return false
+	}
+	if (strDay.length<1 || day<1 || day>31 || (month==2 && day>daysInFebruary(year)) || day > daysInMonth[month]){
+		alert("Please enter a valid day")
+		return false
+	}
+	if (strYear.length != 4 || year==0 || year<minYear || year>maxYear){
+		alert("Please enter a valid 4 digit year between "+minYear+" and "+maxYear)
+		return false
+	}
+	if (dtStr.indexOf(dtCh,pos2+1)!=-1 || isInteger(stripCharsInBag(dtStr, dtCh))==false){
+		alert("Please enter a valid date")
+		return false
+	}
+return true
+}
+</SCRIPT>
+
+</head>
+<body>
+<form name="ballpark" action="http://access.wheatonworldwide.com/WheatonSalesServlet/BallParkServlet" method="post"  onSubmit="return validate_form()">
+<input type="hidden" name="agentNumber" value="your 4 digit agency code goes here">
+<table align=center border="1" bgcolor="#f0eee2">
+<tr><td colspan="2">Get an Interstate <b>BallPark Price</B></td></tr>
+<tr><td>Email Address:</td><td>
+<input type="text" name="emailAddress" maxlength="50" value=""></td></tr>
+<tr><td>Origin Zip:</td><td>
+<input type="text" name="originZip" maxlength="5" value=""></td></tr>
+<tr><td>Destination Zip:</td><td>
+<input type="text" name="destinationZip" maxlength="5" value=""></td></tr>
+<tr><td>Move Date:</td><td>
+<input type="text" name="moveDate"  maxlength="10" value="">
+<A HREF="#" onClick="cal.select(document.forms[0].moveDate,'anchor1','MM/dd/yyyy'); return false;"
+   NAME="anchor1" ID="anchor1"><img src="cal.gif" alt="Select a Date"></A>
+</td></tr>
+<tr><td colspan="2">(Future date in mm/dd/yyyy format)</td><td>
+<tr><td>Move Size:</td><td>
+<select name="moveSize"><option value="">Please select move size</option>
+				<option value="CAT3">Small Studio</option>
+				<option value="CAT4">Large Studio or 1 Bedroom Apt</option>
+				<option value="CAT5">2 Bedroom Apt</option>
+				<option value="CAT6">3 Bdr Apt or 2 Bedroom House</option>
+				<option value="CAT7">3 Bedroom House</option>
+				<option value="CAT8">4 Bedroom House</option>
+				<option value="CAT9">5 Bedroom House or larger</option></select>
+</td></tr>
+<tr><td></td><td>
+<input type="Submit" value="Submit">
+<input type="reset" value="Reset">
+</td></tr>
+</table>
+</form>
+
+</body>
+</html>
